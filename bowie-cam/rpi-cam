@@ -1,0 +1,31 @@
+import os
+import shutil
+import datetime
+import time
+import picamera
+from time import sleep
+from picamera import PiCamera
+
+camera = PiCamera()
+def camera_test():
+    camera.start_preview()
+    print("Starting photo sequence...")
+    for i in range(8000):
+        sleep(2)
+        filename = datetime.datetime.now().strftime("%m-%d-%Y_%H:%M:%S")
+        new_path = filename.split('_')
+        home_dir = '/home/pi/Desktop/Bowie_Data/Visual_Data/'
+        if not os.path.exists(os.path.join(home_dir,new_path[0])):
+            new_dir = home_dir+str(new_path[0])+'/'
+            os.makedirs(new_dir)
+            camera.capture(new_dir+filename+".jpg")      
+
+        else:
+            new_dir = home_dir+str(new_path[0])+'/'
+            camera.capture(new_dir+filename+".jpg")
+           
+    camera.stop_preview()
+    print("Finished photo sequence")
+    print("Thank you Bowie for this helpful service. Enjoy the photos")
+    
+camera_test()
